@@ -1,5 +1,103 @@
-﻿<h3>V_Persona</h3>
+﻿@inject IPersonaService PersonaService
+@page "/VerPersona/{PersonaId:int}"
+
+<RadzenCard class="rz-shadow-7 rz-my-12 rz-mx-auto rz-p-4 rz-p-md-12">
+    <RadzenFieldset>
+        <HeaderTemplate>
+            <span class="d-inline-flex align-items-center align-middle">
+                <RadzenIcon Icon="account_box" class="me-1" /><b>Agregar Persona</b>
+            </span>
+        </HeaderTemplate>
+        <ChildContent>
+            <RadzenTemplateForm TItem="Persona">
+
+
+                <div class="row">
+                    <div class="col-md-4 align-items-center d-flex">
+                        <RadzenLabel Text="Nombre" />
+                    </div>
+                    <div class="col-md-8">
+                        <RadzenTextBox style="width: 100%;" Name="Nombre" @bind-Value="persona.Nombre" />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4 align-items-center d-flex">
+                        <RadzenLabel Text="Telefono" />
+                    </div>
+                    <div class="col-md-8">
+                        <RadzenMask Mask="(***)-***-****" CharacterPattern="[0-9]" Placeholder="(000)-000-0000" style="width: 100%;" Name="Telefono" @bind-Value="persona.Telefono" />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4 align-items-center d-flex">
+                        <RadzenLabel Text="Celular" />
+                    </div>
+                    <div class="col-md-8">
+                        <RadzenMask Mask="(***)-***-****" CharacterPattern="[0-9]" Placeholder="(000)-000-0000" style="width: 100%;" Name="Celular" @bind-Value="persona.Celular" />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4 align-items-center d-flex">
+                        <RadzenLabel Text="Email" />
+                    </div>
+                    <div class="col-md-8">
+                        <RadzenTextBox style="width: 100%;" Name="Email" @bind-Value="persona.Email" />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4 align-items-center d-flex">
+                        <RadzenLabel Text="Direccion" />
+                    </div>
+                    <div class="col-md-8">
+                        <RadzenTextBox style="width: 100%;" Name="Direccion" @bind-Value="persona.Direccion" />
+                    </div>
+                </div>
+
+
+
+                <div class="row">
+                    <div class="col-md-4 align-items-center d-flex">
+                        <RadzenLabel Text="Fecha" />
+                    </div>
+                    <div class="col-md-8">
+                        <RadzenDatePicker style="width: 100%;" Name="Fecha" @bind-Value="persona.F_Nacimiento" />
+                    </div>
+                </div>
+
+
+            </RadzenTemplateForm>
+        </ChildContent>
+    </RadzenFieldset>
+
+    <div style="display:flex; justify-content:center; padding:30px;">
+
+        <RadzenLink Path="/VerPersonas"><RadzenButton ButtonType="ButtonType.Submit" ButtonStyle="ButtonStyle.Success" Click="Guardar" Icon="save" Text="Guardar" /></RadzenLink>
+        <RadzenLink Path="/VerPersonas"><RadzenButton ButtonType="ButtonType.Submit" Click="Eliminar" ButtonStyle="ButtonStyle.Danger" Icon="delete" Text="Eliminar" /></RadzenLink>
+    </div>
+
+</RadzenCard>
 
 @code {
+    [Parameter]
+    public int PersonaID { get; set; }
+    public Persona persona { get; set; } = new Persona();
 
+    protected override async Task OnInitializedAsync()
+    {
+        var encontrado = await PersonaService.GetPersona(PersonaID);
+        persona = encontrado.Data;
+    }
+
+    public void Guardar()
+    {
+        PersonaService.Guardar(this.persona); 
+    }
+    public void Eliminar()
+    {
+        PersonaService.Eliminar(this.persona);
+    }
 }

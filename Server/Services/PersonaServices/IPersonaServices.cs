@@ -7,6 +7,6 @@ namespace Aportes.Server.Services.PersonaServices
         Task<ServiceResponse<List<Persona>>> GetAllPersonasAsync();
         Task<ServiceResponse<Persona>> Guardar(Persona persona);
         Task<ServiceResponse<Persona>> Modificar(Persona persona);
-        Task<ServiceResponse<Persona>> Eliminar(Persona persona);
+        Task<ServiceResponse<Persona>> Eliminar(int PersonaId);
     }
 }

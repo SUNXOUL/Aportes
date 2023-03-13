@@ -100,15 +100,19 @@ namespace Aportes.Server.Services.PersonaServices
             return response;
 
         }
-        public async Task<ServiceResponse<Persona>> Eliminar(Persona persona)
+        public async Task<ServiceResponse<Persona>> Eliminar(int PersonaId)
         {
             var response = new ServiceResponse<Persona>();
 
+            var persona = await _contexto.Personas.FindAsync(PersonaId);
             try
             {
-                _contexto.Entry(persona).State = EntityState.Deleted;
-                _contexto.Database.ExecuteSqlRaw($"DELETE FROM Personas WHERE PersonaId={persona.PersonaId};");
-                _contexto.Entry(persona).State = EntityState.Detached;
+                _contexto.Remove(persona);
+                _contexto.Database.ExecuteSqlRaw($"DELETE FROM Personas WHERE PersonaId={PersonaId};");
+                bool guardado = await _contexto.SaveChangesAsync() > 0;
+
+                response.Data = persona;
+                response.Success = guardado;
             }
 
             catch (Exception ex)

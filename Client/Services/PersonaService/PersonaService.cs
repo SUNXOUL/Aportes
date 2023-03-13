@@ -46,7 +46,7 @@ namespace Aportes.Client.Sevices.PersonaService
         }
         public async Task<ServiceResponse<Persona>> Eliminar(Persona persona)
         {
-            var post = await _http.DeleteAsync($"api/Persona{persona.PersonaId}");
+            var post = await _http.DeleteAsync($"api/Persona/{persona.PersonaId}");
             var result = await post.Content.ReadFromJsonAsync<Persona>();
             var response = new ServiceResponse<Persona>();
             response.Data = result;

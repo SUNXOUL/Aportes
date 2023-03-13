@@ -36,10 +36,10 @@ namespace Aportes.Server.Controllers
             return Ok(result); 
         }
 
-        [HttpDelete]
-        public async Task<ActionResult<ServiceResponse<Persona>>> Delete(Persona persona)
+        [HttpDelete("{PersonaId}")]
+        public async Task<ActionResult<ServiceResponse<Persona>>> Delete(int PersonaId)
         {
-            var result = await personaServices.Eliminar(persona);
+            var result = await personaServices.Eliminar(PersonaId);
             return Ok(result);
         }
     }

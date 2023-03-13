@@ -22,7 +22,7 @@
 
                     <RadzenDataGridColumn TItem="Persona" Filterable="false" Sortable="false" Frozen="true" Title="Acciones">
                         <Template Context="Item">
-                            <RadzenLink Path=@($"/") Text="Ver"><RadzenBadge BadgeStyle="BadgeStyle.Secondary" Text="Ver" /></RadzenLink>
+                            <RadzenLink Path=@($"/VerPersona/{Item.PersonaId}") Text="Ver"><RadzenBadge BadgeStyle="BadgeStyle.Secondary" Text="Ver" /></RadzenLink>
                         </Template>
                     </RadzenDataGridColumn>
 
@@ -50,15 +50,7 @@ catch (Exception e)
 
     protected override async Task OnInitializedAsync()
     {
-        try
-        {
-            await AporteService.GetAportes();
-        }
-        catch(Exception e)
-        {
-            mensaje = e.Message;
-        }
-
+            await PersonaService.GetPersonas();
     }
 
 }
