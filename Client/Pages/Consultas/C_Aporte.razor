@@ -1,0 +1,44 @@
+﻿@page "/VerAportes"
+
+@inject IAporteService AporteService
+@inject IPersonaService PersonaService
+
+        <HeaderTemplate>
+            <span class="d-inline-flex align-items-center align-middle">
+                <RadzenIcon Icon="account_box" class="me-1" /><b>Consultar Aportes</b>
+            </span>
+        </HeaderTemplate>
+
+<RadzenCard class="rz-shadow-7 rz-my-12 rz-mx-auto rz-p-4 rz-p-md-12">
+
+        <ChildContent>
+
+
+            <RadzenDataGrid AllowFiltering="true" AllowColumnResize="true" AllowAlternatingRows="false" FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="5" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
+            Data="@AporteService.Aportes" TItem="Aporte" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or">
+                <Columns>
+
+                     <RadzenDataGridColumn TItem="Aporte" Filterable="false" Sortable="false"  Frozen="true" Title="Acciones">
+                    <Template Context="Item">
+                        <RadzenLink Path=@($"/") Text="Ver" ><RadzenBadge BadgeStyle="BadgeStyle.Secondary" Text="Ver" /></RadzenLink>
+                    </Template>
+                    </RadzenDataGridColumn>
+
+                    <RadzenDataGridColumn TItem="Aporte" Property="PersonaId"  Title="Persona" />
+                    <RadzenDataGridColumn TItem="Aporte" Property="Fecha" Title="Fecha" />
+                    <RadzenDataGridColumn TItem="Aporte" Property="Concepto" Title="Concepto" />
+                    <RadzenDataGridColumn TItem="Aporte" Property="Monto" Title="Monto" />
+
+
+                </Columns>
+            </RadzenDataGrid>
+        </ChildContent>
+</RadzenCard>
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        await AporteService.GetAportes();
+    }
+
+}

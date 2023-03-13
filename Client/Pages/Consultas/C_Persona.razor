@@ -1,0 +1,64 @@
+﻿@page "/VerPersonas"
+
+@inject IAporteService AporteService
+@inject IPersonaService PersonaService
+
+
+        <HeaderTemplate>
+            <span class="d-inline-flex align-items-center align-middle">
+                <RadzenIcon Icon="account_box" class="me-1" /><b>Consultar Personas</b>
+            </span>
+        </HeaderTemplate>
+@try{
+
+    <RadzenCard class="rz-shadow-7 rz-my-12 rz-mx-auto rz-p-4 rz-p-md-12">
+
+        <ChildContent>
+
+            <RadzenDataGrid AllowFiltering="true" AllowColumnResize="true" AllowAlternatingRows="false" FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="5" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
+                        Data="@PersonaService.Personas" TItem="Persona" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or">
+
+                <Columns>
+
+                    <RadzenDataGridColumn TItem="Persona" Filterable="false" Sortable="false" Frozen="true" Title="Acciones">
+                        <Template Context="Item">
+                            <RadzenLink Path=@($"/") Text="Ver"><RadzenBadge BadgeStyle="BadgeStyle.Secondary" Text="Ver" /></RadzenLink>
+                        </Template>
+                    </RadzenDataGridColumn>
+
+                    <RadzenDataGridColumn TItem="Persona" Property="Nombre" Title="Nombre" />
+                    <RadzenDataGridColumn TItem="Persona" Property="Telefono" Title="Telefono" />
+                    <RadzenDataGridColumn TItem="Persona" Property="Celular" Title="Celular" />
+                    <RadzenDataGridColumn TItem="Persona" Property="Email" Title="Email" />
+                    <RadzenDataGridColumn TItem="Persona" Property="Direccion" Title="Direccion" />
+                    <RadzenDataGridColumn TItem="Persona" Property="Aporte" Title="Aporte" />
+                    <RadzenDataGridColumn TItem="Persona" Property="F_Nacimiento" Title="Fecha Nacimiento" />
+
+                </Columns>
+            </RadzenDataGrid>
+        </ChildContent>
+    </RadzenCard>
+}
+catch (Exception e)
+{
+    <p>@e.Message</p>
+    <p>@mensaje</p>
+}
+
+@code {
+    public string mensaje { get; set; } = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            await AporteService.GetAportes();
+        }
+        catch(Exception e)
+        {
+            mensaje = e.Message;
+        }
+
+    }
+
+}

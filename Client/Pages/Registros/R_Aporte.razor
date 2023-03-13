@@ -1,0 +1,116 @@
+﻿@inject IPersonaService PersonaService
+@inject IAporteService AporteService
+@inject ITiposAportesService TiposAportes
+@page "/AgregarAporte"
+
+<RadzenCard class="rz-shadow-7 rz-my-12 rz-mx-auto rz-p-4 rz-p-md-12">
+
+
+    <RadzenFieldset>
+        <HeaderTemplate>
+            <span class="d-inline-flex align-items-center align-middle">
+                <RadzenIcon icon="account_box" class="me-1" /><b>Agregar Aporte</b>
+            </span>
+        </HeaderTemplate>
+        <ChildContent>
+            <RadzenTemplateForm TItem="Aporte" data=@aporte>
+                <div class="row">
+                    <div class="col-md-4 align-items-center d-flex">
+                        <RadzenLabel Text="Fecha" />
+                    </div>
+                    <div class="col-md-8">
+                        <RadzenDatePicker style="width: 100%;" Name="Fecha" @bind-Value="@aporte.Fecha" />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4 align-items-center d-flex">
+                        <RadzenLabel Text="Fecha" />
+                    </div>
+                    <div class="col-md-8">
+                        <RadzenDropDown FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" FilterOperator="StringFilterOperator.StartsWith" AllowFiltering="true"
+                                        Data=@PersonaService.Personas TextProperty="Nombre" ValueProperty="PersonaId" AllowClear="true" @bind-Value="@aporte.PersonaId" />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4 align-items-center d-flex">
+                        <RadzenLabel Text="Concepto" />
+                    </div>
+                    <div class="col-md-8">
+                        <RadzenTextBox style="width: 100%;" Name="Concepto" @bind-Value="aporte.Concepto" />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4 align-items-center d-flex">
+                        <RadzenLabel Text="Monto" />
+                    </div>
+                    <div class="col-md-8">
+                        <RadzenNumeric style="width: 100%;" Disabled="true" Name="Monto" @bind-Value="@aporte.Monto" />
+                    </div>
+                </div>
+                <RadzenFieldset>
+                    <HeaderTemplate>
+                        <span class="d-inline-flex align-items-center align-middle">
+                            <RadzenIcon icon="account_box" class="me-1" /><b>Agregar Detalle</b>
+                        </span>
+                    </HeaderTemplate>
+                    <ChildContent>
+
+
+                <div class="row">
+                    <div class="col-md-4 align-items-center d-flex">
+                        <RadzenLabel Text="Tipo" />
+                    </div>
+                    <div class="col-md-8">
+                        <RadzenDropDown FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" FilterOperator="StringFilterOperator.StartsWith" AllowFiltering="true"
+                                        Data=@TiposAportes.Tipos TextProperty="Descripcion" ValueProperty="TipoAporteId" AllowClear="true" @bind-Value="@aportesdetalle.Tipo" />
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-4 align-items-center d-flex">
+                        <RadzenLabel Text="Monto" />
+                    </div>
+                    <div class="col-md-8">
+                        <div style="display:flex;">
+                        <RadzenNumeric style="width: 100%;" Name="Monto" @bind-Value="@aportesdetalle.Valor" />
+                                    <RadzenButton icon="east" ButtonStyle="ButtonStyle.Secondary" />
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <RadzenDataGrid AllowFiltering="true" AllowColumnResize="true" AllowAlternatingRows="false" FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="5" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
+                                Data="@aporte.DetalleAporte" TItem="AportesDetalle" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or">
+                    <Columns>
+
+                        <RadzenDataGridColumn TItem="AportesDetalle" Property="Tipo" Title="Tipo" />
+                        <RadzenDataGridColumn TItem="AportesDetalle" Property="Valor" Title="Valor" />
+
+                    </Columns>
+                </RadzenDataGrid>
+
+                </ChildContent>
+                </RadzenFieldset>
+
+
+            </RadzenTemplateForm>
+        </ChildContent>
+
+
+    </RadzenFieldset>
+
+    <div style="display:flex; justify-content:center; padding:30px;">
+
+        <RadzenButton ButtonType="ButtonType.Submit" icon="save" text="guardar" />
+    </div>
+
+</RadzenCard>
+
+@code {
+    public Aporte aporte { get; set; } = new Aporte();
+    public AportesDetalle aportesdetalle { get; set; } = new AportesDetalle();
+
+}

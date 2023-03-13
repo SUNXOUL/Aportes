@@ -1,0 +1,59 @@
+﻿@page "/VerTiposAportess"
+
+@inject ITiposAportesService TiposAportesService
+
+        <HeaderTemplate>
+            <span class="d-inline-flex align-items-center align-middle">
+                <RadzenIcon Icon="account_box" class="me-1" /><b>Consultar TiposAportes</b>
+            </span>
+        </HeaderTemplate>
+@try{
+
+    <RadzenCard class="rz-shadow-7 rz-my-12 rz-mx-auto rz-p-4 rz-p-md-12">
+
+        <ChildContent>
+
+            <RadzenDataGrid AllowFiltering="true" AllowColumnResize="true" AllowAlternatingRows="false" FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="5" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
+                        Data="@TiposAportesService.Tipos" TItem="TiposAportes" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or">
+
+                <Columns>
+
+                    <RadzenDataGridColumn TItem="TiposAportes" Filterable="false" Sortable="false" Frozen="true" Title="Acciones">
+                        <Template Context="Item">
+                            <RadzenLink Path=@($"/") Text="Ver"><RadzenBadge BadgeStyle="BadgeStyle.Secondary" Text="Ver" /></RadzenLink>
+                        </Template>
+                    </RadzenDataGridColumn>
+
+                    <RadzenDataGridColumn TItem="TiposAportes" Property="Descripcion" Title="Descripcion" />
+                    <RadzenDataGridColumn TItem="TiposAportes" Property="Meta" Title="Meta" />
+                    <RadzenDataGridColumn TItem="TiposAportes" Property="Logrado" Title="Logrado" />
+
+
+                </Columns>
+            </RadzenDataGrid>
+        </ChildContent>
+    </RadzenCard>
+}
+catch (Exception e)
+{
+    <p>@e.Message</p>
+    <p>@mensaje</p>
+}
+
+@code {
+    public string mensaje { get; set; } = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            await TiposAportesService.GetTiposAportes();
+        }
+        catch(Exception e)
+        {
+            mensaje = e.Message;
+        }
+
+    }
+
+}

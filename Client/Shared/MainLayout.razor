@@ -1,0 +1,58 @@
+﻿@inherits LayoutComponentBase
+
+
+
+<div clas ="Layout">
+<RadzenLayout Style="height: 100vh; grid-template-columns: auto 1fr auto; grid-template-areas: 'rz-header rz-header rz-header' 'rz-sidebar rz-body rz-right-sidebar'">
+        <RadzenHeader Style="background-color:#1D2939;">
+        <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Gap="0">
+            <RadzenSidebarToggle Click="@(() => sidebar5Expanded = !sidebar5Expanded)" />
+            <RadzenLabel Text="Header" Style="color:white;" />
+        </RadzenStack>
+    </RadzenHeader>
+    <RadzenSidebar @bind-Expanded="@sidebar5Expanded">
+            <RadzenPanelMenu Multiple="false">
+            <RadzenPanelMenuItem Text="Home" Icon="home" Path="/" />
+
+            @*Persona*@
+
+            <RadzenPanelMenuItem Text="Persona" Icon="account_box" >
+                    <RadzenPanelMenuItem Text="Registrar" Icon="add" Path="/AgregarPersona" />
+                    <RadzenPanelMenuItem Text="Consultar" Icon="search" Path="/VerPersonas" />
+            </RadzenPanelMenuItem>
+
+                @*Aportes*@
+
+                <RadzenPanelMenuItem Text="Aportes" Icon="redeem">
+                    <RadzenPanelMenuItem Text="Registrar" Icon="add" Path="/AgregarAporte" />
+                    <RadzenPanelMenuItem Text="Consultar" Icon="search"  Path="/VerAportes"/>
+                </RadzenPanelMenuItem>
+
+
+                @*Tipos Aportes*@
+
+                <RadzenPanelMenuItem Text="Tipos Aportes" Icon="category">
+                    <RadzenPanelMenuItem Text="Consultar" Icon="search" Path="/" />
+                </RadzenPanelMenuItem>
+
+        </RadzenPanelMenu>
+    </RadzenSidebar>
+    <RadzenBody>
+        <div class="rz-p-4">
+            @Body
+        </div>
+        <div class="rz-p-4">
+        </div>
+    </RadzenBody>
+    <RadzenSidebar @bind-Expanded="@sidebar6Expanded" Style="width: 300px; grid-area: rz-right-sidebar">
+        <div class="rz-p-4">
+           
+        </div>
+    </RadzenSidebar>
+</RadzenLayout>
+</div>
+
+@code {
+    bool sidebar5Expanded = true;
+    bool sidebar6Expanded = true;
+}
